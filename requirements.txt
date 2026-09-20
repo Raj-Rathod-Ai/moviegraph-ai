@@ -1,0 +1,4 @@
+# MovieGraph AI — Backend Dependencies
+# This file exists for Render compatibility (dashboard build command).
+# All packages are defined in requirements-backend.txt
+-r requirements-backend.txt
