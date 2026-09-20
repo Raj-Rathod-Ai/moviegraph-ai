@@ -29,13 +29,20 @@
   <script>if (typeof marked === 'undefined') { document.write('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\\/script>'); }</script>
 
   <link rel="stylesheet" href="styles.css">
-  <!-- Hide Netlify badge -->
+  <!-- Hide Netlify badge (injected dynamically by Netlify CDN) -->
   <style>
-    [data-netlify-widget],
-    .netlify-widget,
-    #netlify-widget,
-    iframe[src*="netlify"] { display: none !important; }
+    [data-netlify-widget], .netlify-widget, #netlify-widget,
+    iframe[src*="netlify"], div[class*="netlify"] { display:none!important; }
   </style>
+  <script>
+    // Remove Netlify badge when it appears in the DOM
+    const _nObs = new MutationObserver(() => {
+      document.querySelectorAll(
+        '[data-netlify-widget],[class*="netlify-"],[id*="netlify"],iframe[src*="netlify"]'
+      ).forEach(el => el.remove());
+    });
+    _nObs.observe(document.documentElement, { childList: true, subtree: true });
+  </script>
 </head>
 <body>
 
