@@ -1202,7 +1202,7 @@ async function initUserSession() {
 
   // Validate or issue with backend
   try {
-    const res = await fetch('/api/user/validate', {
+    const res = await fetch(getApiUrl('/api/user/validate'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_id: userId })
