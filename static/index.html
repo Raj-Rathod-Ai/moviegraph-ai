@@ -25,10 +25,17 @@
   <!-- D3.js v7 for Knowledge Graph -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <!-- Marked for Markdown rendering (Local with CDN fallback) -->
-  <script src="/static/marked.min.js"></script>
+  <script src="marked.min.js"></script>
   <script>if (typeof marked === 'undefined') { document.write('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\\/script>'); }</script>
 
-  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Hide Netlify badge -->
+  <style>
+    [data-netlify-widget],
+    .netlify-widget,
+    #netlify-widget,
+    iframe[src*="netlify"] { display: none !important; }
+  </style>
 </head>
 <body>
 
@@ -733,6 +740,6 @@ ws.send(JSON.stringify({ query: "Films similar to Inception" }));
     </div>
   </footer>
 
-  <script src="/static/app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
