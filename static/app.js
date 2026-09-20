@@ -32,15 +32,24 @@ function getWebSocketUrl() {
 }
 
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
+  // Show UI immediately — don't block on backend calls
   if (window.lucide) lucide.createIcons();
-  await initUserSession();
-  fetchSystemStats();
-  loadDiscoveryCatalog();
-  initWebSocket();
   initRouter();
   initMotionSitesLiveBackground();
   initGlobalEvents();
+
+  // Background: API calls (Render may be cold-starting, don't block UI)
+  initUserSession().then(() => {
+    fetchSystemStats();
+    loadDiscoveryCatalog();
+    initWebSocket();
+  }).catch(() => {
+    // Backend offline/cold — still show UI, retry stats quietly
+    fetchSystemStats();
+    loadDiscoveryCatalog();
+    initWebSocket();
+  });
 });
 
 // ---------------------------------------------------------
