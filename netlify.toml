@@ -2,6 +2,7 @@
 
 [build]
   publish = "static"
+  command = "echo 'Static frontend — no build step required'"
 
 # Backend API URL injected as environment variable (used by app.js via window.MOVIEGRAPH_API_URL)
 [build.environment]
