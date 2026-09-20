@@ -1,0 +1,13 @@
+# Environment variables
+.env
+!.env.example
+
+# Data files
+*.csv
+
+# Python environment & cache
+.venv/
+__pycache__/
+*.pyc
+ingest_checkpoint.json
+

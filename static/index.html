@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieGraph AI — Cinematic GraphRAG Intelligence Platform</title>
+  
+  <!-- Modern Geometric Cinema Icon (SVG Favicon) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='36' y2='36' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23FF6B35'/%3E%3Cstop offset='0.5' stop-color='%23E05A3A'/%3E%3Cstop offset='1' stop-color='%23C9784D'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='36' height='36' rx='10' fill='%23141419' stroke='rgba(255,255,255,0.1)'/%3E%3Cpolygon points='18,7 28,13 28,23 18,29 8,23 8,13' fill='none' stroke='url(%23g)' stroke-width='1.8'/%3E%3Ccircle cx='18' cy='18' r='3.5' fill='url(%23g)'/%3E%3Cline x1='18' y1='7' x2='18' y2='18' stroke='url(%23g)' stroke-width='1.2'/%3E%3Cline x1='28' y1='13' x2='18' y2='18' stroke='url(%23g)' stroke-width='1.2'/%3E%3Cline x1='28' y1='23' x2='18' y2='18' stroke='url(%23g)' stroke-width='1.2'/%3E%3Cline x1='18' y1='29' x2='18' y2='18' stroke='url(%23g)' stroke-width='1.2'/%3E%3Cline x1='8' y1='23' x2='18' y2='18' stroke='url(%23g)' stroke-width='1.2'/%3E%3Cline x1='8' y1='13' x2='18' y2='18' stroke='url(%23g)' stroke-width='1.2'/%3E%3Ccircle cx='18' cy='7' r='2' fill='%23FBBF24'/%3E%3Ccircle cx='28' cy='13' r='2' fill='%23FF7A50'/%3E%3Ccircle cx='28' cy='23' r='2' fill='%23E05A3A'/%3E%3Ccircle cx='18' cy='29' r='2' fill='%23FBBF24'/%3E%3Ccircle cx='8' cy='23' r='2' fill='%23E05A3A'/%3E%3Ccircle cx='8' cy='13' r='2' fill='%23FF7A50'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts: Plus Jakarta Sans + Playfair Display + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- D3.js v7 for Knowledge Graph -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Marked for Markdown rendering (Local with CDN fallback) -->
+  <script src="/static/marked.min.js"></script>
+  <script>if (typeof marked === 'undefined') { document.write('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\\/script>'); }</script>
+
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+  <!-- MotionSites Live Animated Dynamic Background Canvas & Atmosphere -->
+  <canvas id="motion-bg-canvas" class="motion-bg-canvas"></canvas>
+  <div class="ambient-glow-mesh"></div>
+  <div class="film-grain-overlay"></div>
+
+  <!-- =========================================================
+       MOTIONSITES FLOATING GLASSMORPHIC NAVBAR
+       ========================================================= -->
+  <div class="navbar-wrapper">
+    <header class="floating-navbar">
+      
+      <!-- Brand Identity with Custom Vector Logo -->
+      <a href="#/research" class="brand-lockup" title="MovieGraph AI Home">
+        <div class="brand-icon-box">
+          <svg class="brand-svg-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="brandGrad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FF6B35" />
+                <stop offset="0.5" stop-color="#E05A3A" />
+                <stop offset="1" stop-color="#C9784D" />
+              </linearGradient>
+            </defs>
+            <rect width="36" height="36" rx="9" fill="#18171C" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+            <polygon points="18,7 28,13 28,23 18,29 8,23 8,13" fill="none" stroke="url(#brandGrad)" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="18" cy="18" r="3.4" fill="url(#brandGrad)"/>
+            <line x1="18" y1="7" x2="18" y2="18" stroke="url(#brandGrad)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="28" y1="13" x2="18" y2="18" stroke="url(#brandGrad)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="28" y1="23" x2="18" y2="18" stroke="url(#brandGrad)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="18" y1="29" x2="18" y2="18" stroke="url(#brandGrad)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="8" y1="23" x2="18" y2="18" stroke="url(#brandGrad)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="8" y1="13" x2="18" y2="18" stroke="url(#brandGrad)" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="18" cy="7" r="2" fill="#FBBF24"/>
+            <circle cx="28" cy="13" r="2" fill="#FF7A50"/>
+            <circle cx="28" cy="23" r="2" fill="#E05A3A"/>
+            <circle cx="18" cy="29" r="2" fill="#FBBF24"/>
+            <circle cx="8" cy="23" r="2" fill="#E05A3A"/>
+            <circle cx="8" cy="13" r="2" fill="#FF7A50"/>
+          </svg>
+        </div>
+        <div class="brand-text-group">
+          <span class="brand-title">MovieGraph<span class="brand-ai">AI</span></span>
+        </div>
+      </a>
+
+      <!-- Center Pill Navigation Tabs -->
+      <nav class="nav-pill-cluster">
+        <a href="#/research" class="nav-pill active" id="nav-research">
+          <i data-lucide="sparkles"></i>
+          <span>Research</span>
+        </a>
+        <a href="#/chat" class="nav-pill" id="nav-chat">
+          <i data-lucide="message-square"></i>
+          <span>Chat</span>
+        </a>
+        <a href="#/catalog" class="nav-pill" id="nav-catalog">
+          <i data-lucide="film"></i>
+          <span>Catalog</span>
+        </a>
+        <a href="#/graph" class="nav-pill" id="nav-graph">
+          <i data-lucide="network"></i>
+          <span>Graph</span>
+        </a>
+        <a href="#/docs" class="nav-pill" id="nav-docs">
+          <i data-lucide="book-open"></i>
+          <span>Docs</span>
+        </a>
+      </nav>
+
+      <!-- Right Actions: Telemetry + User Session Validation + New Chat -->
+      <div class="nav-actions-cluster">
+        <div class="status-indicator-pill" title="Neo4j Aura & Pinecone Vector Status">
+          <span class="status-pulse-dot"></span>
+          <span id="nav-status-text">32,432 Films Online</span>
+        </div>
+
+        <!-- User Identity & Validation Pill -->
+        <div class="user-session-pill" id="user-profile-badge" onclick="toggleUserDropdown(event)" title="Validated Researcher Session (Cookie & LocalStorage Protected)">
+          <div class="user-avatar-circle">
+            <i data-lucide="shield-check" style="width: 13px; height: 13px;"></i>
+          </div>
+          <span class="user-id-text" id="navbar-user-id">usr_guest</span>
+          <i data-lucide="chevron-down" class="user-dropdown-arrow" style="width: 12px; height: 12px;"></i>
+
+          <!-- Dropdown Menu for User Session Switch & Isolation -->
+          <div class="user-dropdown-menu" id="user-dropdown-menu" onclick="event.stopPropagation()">
+            <div class="user-dropdown-header">
+              <span class="user-dropdown-title">Verified Researcher Identity</span>
+              <span class="user-dropdown-sub" id="user-dropdown-id">Protected Cookie & Storage</span>
+            </div>
+            <button class="user-dropdown-item" onclick="startNewUserSession(event)">
+              <i data-lucide="user-plus"></i>
+              <div class="item-text-wrap">
+                <div class="item-title">New User Profile</div>
+                <div class="item-sub">Switch user & isolate search history</div>
+              </div>
+            </button>
+            <button class="user-dropdown-item text-danger" onclick="confirmClearAllHistory(event)">
+              <i data-lucide="trash-2"></i>
+              <div class="item-text-wrap">
+                <div class="item-title">Clear My History</div>
+                <div class="item-sub">Erase all chats for this user</div>
+              </div>
+            </button>
+          </div>
+        </div>
+        
+        <button class="btn-new-research" onclick="startNewChat()">
+          <i data-lucide="plus"></i>
+          <span>New Research</span>
+        </button>
+      </div>
+
+    </header>
+  </div>
+
+  <!-- =========================================================
+       STATE 1: FASTSHOT ATMOSPHERIC HERO & COMPOSER (#/research)
+       ========================================================= -->
+  <main id="research-state" class="state-container">
+    <div class="hero-container">
+      
+      <!-- MotionSites Category Badge -->
+      <div class="hero-badge-row">
+        <span class="category-pill">
+          <i data-lucide="cpu" style="width: 13px; height: 13px;"></i> Hybrid GraphRAG Cinema Intelligence
+        </span>
+      </div>
+
+      <h1 class="hero-headline">
+        Explore Cinema <span class="highlight-accent">Intelligence</span>.
+      </h1>
+      
+      <p class="hero-subhead">
+        Traverse relationships, narrative themes, and deep film history powered by Neo4j graph traversal, Pinecone vector embeddings, Mistral AI, and live cinema archives.
+      </p>
+
+      <!-- Fastshot Centered Glassmorphic Composer Card -->
+      <div class="fastshot-composer-card">
+        <div class="composer-halo-glow"></div>
+        
+        <div class="composer-body">
+          <textarea 
+            id="main-composer-input" 
+            class="fastshot-textarea" 
+            rows="2" 
+            placeholder="Ask about narrative themes, director filmographies, hidden plot connections, or cinema archives..."
+            onkeydown="handleComposerKey(event)"
+          ></textarea>
+        </div>
+
+        <!-- Fastshot Bottom Toolbar -->
+        <div class="fastshot-toolbar">
+          <!-- Left Attachment / Source Chips -->
+          <div class="toolbar-chips-group">
+            <span class="source-chip chip-neo4j" title="Connected to Neo4j Aura Graph Database">
+              <i data-lucide="git-fork"></i>
+              <span>Neo4j Graph (34k)</span>
+            </span>
+            <span class="source-chip chip-pinecone" title="Pinecone 1024d Vector Embeddings">
+              <i data-lucide="layers"></i>
+              <span>Vector Plots</span>
+            </span>
+            <span class="source-chip chip-web" title="Validated Cinema Tavily & Wikipedia Fallback">
+              <i data-lucide="globe"></i>
+              <span>Web Enrich</span>
+            </span>
+          </div>
+
+          <!-- Right Controls: Model Pill + Oversized Send Button -->
+          <div class="toolbar-controls-group">
+            <div class="model-selector-chip" title="Active LLM Architecture">
+              <span class="model-dot"></span>
+              <span>Ministral 8B</span>
+            </div>
+
+            <button class="btn-fastshot-send" onclick="submitMainQuery()" title="Execute Research Query">
+              <i data-lucide="arrow-up"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fastshot Prompt Suggestion Pills -->
+      <div class="suggestions-wrapper">
+        <div class="suggestions-label">Try research inquiries:</div>
+        <div class="suggestions-row">
+          <button class="prompt-pill" onclick="applySuggestion('Films similar to Inception exploring dream layers and simulated reality')">
+            <i data-lucide="sparkles"></i>
+            <span>Mind-bending films similar to Inception</span>
+          </button>
+          <button class="prompt-pill" onclick="applySuggestion('Which films did Christopher Nolan direct and what connects their plots?')">
+            <i data-lucide="film"></i>
+            <span>Christopher Nolan's directorial graph</span>
+          </button>
+          <button class="prompt-pill" onclick="applySuggestion('Find neo-noir psychological thrillers with nonlinear timelines')">
+            <i data-lucide="compass"></i>
+            <span>Neo-noir psychological thrillers</span>
+          </button>
+          <button class="prompt-pill" onclick="applySuggestion('Who starred in the 1924 silent classic Beau Brummel?')">
+            <i data-lucide="history"></i>
+            <span>Beau Brummel (1924) Cast Archive</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =========================================================
+       STATE 2: CHAT WORKSPACE (#/chat)
+       ========================================================= -->
+  <section id="chat-state" class="state-container">
+    <!-- Sidebar -->
+    <aside class="chat-sidebar">
+      <button class="sidebar-new-btn" onclick="startNewChat()">
+        <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+        <span>New Research Thread</span>
+      </button>
+
+      <div class="sidebar-section-header">
+        <div class="sidebar-section-title">Research History</div>
+        <button class="btn-clear-history-icon" onclick="confirmClearAllHistory(event)" title="Clear all history for this user">
+          <i data-lucide="trash-2" style="width: 13px; height: 13px;"></i>
+        </button>
+      </div>
+
+      <ul class="history-list" id="history-list">
+        <!-- Populated dynamically with chat session cards, timestamps & delete buttons -->
+      </ul>
+
+      <!-- Active User Validation Badge in Sidebar -->
+      <div class="sidebar-user-box">
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-badge">
+            <span class="pulse-online-dot"></span>
+            <span id="sidebar-user-label" class="sidebar-user-label">usr_guest</span>
+          </div>
+          <button class="btn-sidebar-user-switch" onclick="startNewUserSession(event)" title="Switch to a new isolated user profile">
+            <i data-lucide="user-plus" style="width: 13px; height: 13px;"></i>
+            <span>New Profile</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-stats-box">
+        <div class="stat-line"><span>Archive:</span> <strong id="stat-movies">32,432</strong> Films</div>
+        <div class="stat-line"><span>Graph Edges:</span> <strong id="stat-rels">184,328</strong> Edges</div>
+        <div class="stat-line"><span>Embeddings:</span> <strong id="stat-vectors">Pinecone 1024d</strong></div>
+      </div>
+    </aside>
+
+    <!-- Mobile Drawer Overlay Backdrop -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
+
+    <!-- Main Chat Pane -->
+    <div class="chat-main-pane">
+      <!-- Mobile Chat Action Bar (Visible on mobile/tablet) -->
+      <div class="mobile-chat-top-bar">
+        <button class="btn-mobile-drawer" onclick="toggleMobileSidebar(true)" title="Open Research History Drawer">
+          <i data-lucide="history" style="width: 14px; height: 14px;"></i>
+          <span>History (<span id="mobile-history-count">0</span>)</span>
+        </button>
+        <button class="btn-mobile-new" onclick="startNewChat()" title="Start New Research Thread">
+          <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+          <span>New Thread</span>
+        </button>
+      </div>
+
+      <div class="chat-scroll-area" id="chat-scroll-area">
+        <!-- Chat Blocks Render Here -->
+      </div>
+
+      <!-- Floating Bottom Chat Composer -->
+      <div class="chat-bottom-bar">
+        <div class="fastshot-composer-card chat-composer-card">
+          <div class="composer-body">
+            <textarea 
+              id="chat-composer-input" 
+              class="fastshot-textarea" 
+              rows="1" 
+              placeholder="Ask a follow-up inquiry or explore deeper connections..." 
+              onkeydown="handleChatComposerKey(event)"
+            ></textarea>
+          </div>
+          
+          <div class="fastshot-toolbar">
+            <div class="toolbar-chips-group">
+              <span class="source-chip chip-neo4j"><i data-lucide="git-fork"></i> Graph</span>
+              <span class="source-chip chip-pinecone"><i data-lucide="layers"></i> Semantic</span>
+              <span class="source-chip chip-web"><i data-lucide="globe"></i> Web</span>
+            </div>
+
+            <div class="toolbar-controls-group">
+              <button class="btn-fastshot-send" onclick="submitChatQuery()">
+                <i data-lucide="arrow-up"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       STATE 3: CINEMATIC MOVIE DISCOVERY MODE (#/catalog)
+       ========================================================= -->
+  <section id="catalog-state" class="state-container">
+    <div class="discovery-backdrop-layer" id="discovery-backdrop"></div>
+    
+    <div class="discovery-stage">
+      <div class="discovery-card-hero">
+        <div class="discovery-poster-col" id="discovery-poster"></div>
+        <div class="discovery-info-col">
+          <span class="section-tag" id="discovery-genre">Drama · Cinema</span>
+          <h2 class="discovery-title" id="discovery-title">Movie Title</h2>
+          <div class="discovery-meta">
+            <span id="discovery-year">1994</span> · Directed by <span id="discovery-director">Director Name</span>
+          </div>
+          <p class="discovery-plot" id="discovery-plot">Plot excerpt...</p>
+          
+          <div class="discovery-nav-controls">
+            <button class="btn-discovery-nav" onclick="prevDiscoveryMovie()">
+              <i data-lucide="arrow-left"></i> Previous
+            </button>
+            <button class="btn-secondary" onclick="inspectCurrentDiscoveryMovie()">
+              <i data-lucide="network"></i> View Connections
+            </button>
+            <button class="btn-discovery-nav" onclick="nextDiscoveryMovie()">
+              Next <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       STATE 4: DEDICATED KNOWLEDGE GRAPH EXPLORER (#/graph)
+       ========================================================= -->
+  <section id="graph-state" class="state-container">
+    <div class="graph-top-bar">
+      <div class="graph-search-box">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" class="graph-search-input" id="graph-filter-input" placeholder="Filter graph by film, actor, or director..." oninput="filterKnowledgeGraph(event)">
+      </div>
+      <button class="btn-secondary" onclick="resetKnowledgeGraph()">
+        <i data-lucide="rotate-ccw"></i> Reset Layout
+      </button>
+    </div>
+
+    <div id="graph-canvas-container"></div>
+
+    <div class="graph-legend">
+      <div class="legend-item"><span class="legend-dot legend-movie"></span> Movie Node</div>
+      <div class="legend-item"><span class="legend-dot legend-director"></span> Director</div>
+      <div class="legend-item"><span class="legend-dot legend-actor"></span> Actor</div>
+      <div class="legend-item"><span class="legend-dot legend-genre"></span> Genre Category</div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       STATE 5: COMPREHENSIVE DOCUMENTATION HUB (#/docs)
+       ========================================================= -->
+  <section id="docs-state" class="state-container">
+    <div class="docs-layout">
+      
+      <!-- Docs Navigation Sidebar -->
+      <aside class="docs-sidebar">
+        <div class="docs-sidebar-header">
+          <i data-lucide="book-open"></i>
+          <span>Documentation</span>
+        </div>
+        <nav class="docs-nav-menu">
+          <a href="#doc-architecture" class="docs-nav-link active" onclick="switchDocSection('architecture', event)">
+            <i data-lucide="cpu"></i> Architecture & GraphRAG
+          </a>
+          <a href="#doc-neo4j" class="docs-nav-link" onclick="switchDocSection('neo4j', event)">
+            <i data-lucide="git-fork"></i> Neo4j Knowledge Graph
+          </a>
+          <a href="#doc-pinecone" class="docs-nav-link" onclick="switchDocSection('pinecone', event)">
+            <i data-lucide="layers"></i> Pinecone Vector Search
+          </a>
+          <a href="#doc-enrichment" class="docs-nav-link" onclick="switchDocSection('enrichment', event)">
+            <i data-lucide="globe"></i> Wikipedia & Tavily Enrich
+          </a>
+          <a href="#doc-api" class="docs-nav-link" onclick="switchDocSection('api', event)">
+            <i data-lucide="code"></i> API & WebSocket Reference
+          </a>
+          <a href="#doc-prompts" class="docs-nav-link" onclick="switchDocSection('prompts', event)">
+            <i data-lucide="sparkles"></i> Curated Prompt Guide
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Docs Main Content View -->
+      <div class="docs-content-pane">
+        
+        <!-- Section: Architecture -->
+        <article id="doc-section-architecture" class="doc-article active">
+          <div class="doc-header">
+            <span class="doc-kicker">Core System Architecture</span>
+            <h1 class="doc-title">Hybrid GraphRAG Intelligence Engine</h1>
+            <p class="doc-description">
+              MovieGraph AI merges graph databases, vector search, and dual-layer retrieval to provide grounded, hallucination-free movie intelligence across the cinema archive.
+            </p>
+          </div>
+
+          <div class="doc-card">
+            <h3>Architecture Pipeline Flow</h3>
+            <div class="pipeline-diagram-box">
+              <div class="pipeline-step">
+                <div class="step-num">01</div>
+                <div class="step-label">User Inquiry</div>
+                <div class="step-desc">WebSocket stream initiated at <code>/ws/chat</code></div>
+              </div>
+              <div class="pipeline-arrow">→</div>
+              <div class="pipeline-step highlight-step">
+                <div class="step-num">02</div>
+                <div class="step-label">Step 1: Dataset First</div>
+                <div class="step-desc">Cypher queries against Neo4j &amp; Pinecone vector search</div>
+              </div>
+              <div class="pipeline-arrow">→</div>
+              <div class="pipeline-step">
+                <div class="step-num">03</div>
+                <div class="step-label">Direct Wikipedia</div>
+                <div class="step-desc">Extract exact <code>m.wikiPage</code> URL from dataset</div>
+              </div>
+              <div class="pipeline-arrow">→</div>
+              <div class="pipeline-step">
+                <div class="step-num">04</div>
+                <div class="step-label">Tavily Fallback</div>
+                <div class="step-desc">Strictly validates live cinema domains if missing</div>
+              </div>
+              <div class="pipeline-arrow">→</div>
+              <div class="pipeline-step">
+                <div class="step-num">05</div>
+                <div class="step-label">Mistral Synthesis</div>
+                <div class="step-desc">Deterministic synthesis without apologies or link clutter</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Section: Neo4j Knowledge Graph -->
+        <article id="doc-section-neo4j" class="doc-article">
+          <div class="doc-header">
+            <span class="doc-kicker">Knowledge Graph Architecture</span>
+            <h1 class="doc-title">Neo4j Graph Topology &amp; Schema</h1>
+            <p class="doc-description">
+              The cinema archive is ingested into an Aura database with unique movies, actors, directors, genres, and directed relationships.
+            </p>
+          </div>
+
+          <div class="doc-card">
+            <h3>Schema Definition</h3>
+            <pre class="code-block"><code>(:Person {name}) -[:DIRECTED]-> (:Movie {title, releaseYear, origin, wikiPage, plot})
+(:Person {name}) -[:ACTED_IN]-> (:Movie {title, releaseYear, origin, wikiPage, plot})
+(:Movie {title, releaseYear, origin, wikiPage, plot}) -[:HAS_GENRE]-> (:Genre {name})</code></pre>
+            <p class="doc-note">
+              <strong>Note:</strong> People are unified under the <code>:Person</code> label rather than distinct Actor/Director labels, allowing multi-role cinema professionals to be modeled accurately.
+            </p>
+          </div>
+
+          <div class="doc-card">
+            <h3>Sample Cypher Query</h3>
+            <pre class="code-block"><code>MATCH (m:Movie {title: "Inception"})&lt;-[:DIRECTED]-(d:Person)
+MATCH (m)-[:HAS_GENRE]->(g:Genre)
+MATCH (m)&lt;-[:ACTED_IN]-(p:Person)
+RETURN m.title, d.name AS director, collect(g.name) AS genres, collect(p.name)[..5] AS cast;</code></pre>
+          </div>
+        </article>
+
+        <!-- Section: Pinecone Vectors -->
+        <article id="doc-section-pinecone" class="doc-article">
+          <div class="doc-header">
+            <span class="doc-kicker">Semantic Plot Search</span>
+            <h1 class="doc-title">High-Dimensional Vector Embeddings</h1>
+            <p class="doc-description">
+              Detailed movie plots and story themes are converted into 1024-dimensional semantic embeddings via Mistral AI's <code>mistral-embed</code> model with cosine similarity matching.
+            </p>
+          </div>
+
+          <div class="doc-card">
+            <h3>Embedding Specifications</h3>
+            <div class="specs-grid">
+              <div class="spec-item"><div class="spec-label">Architecture</div><div class="spec-val">Serverless Vector Search</div></div>
+              <div class="spec-item"><div class="spec-label">Dimensions</div><div class="spec-val">1024-d Dense Vectors</div></div>
+              <div class="spec-item"><div class="spec-label">Embedding Model</div><div class="spec-val">mistral-embed</div></div>
+              <div class="spec-item"><div class="spec-label">Metric</div><div class="spec-val">Cosine Similarity</div></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Section: Live Enrichment -->
+        <article id="doc-section-enrichment" class="doc-article">
+          <div class="doc-header">
+            <span class="doc-kicker">Validation &amp; Integrity</span>
+            <h1 class="doc-title">Wikipedia &amp; Cinema / Web Series Live Search</h1>
+            <p class="doc-description">
+              Prevents hallucinations by resolving exact encyclopedic articles from the archive, with live web fallback across feature films, television dramas, web series, and streaming originals.
+            </p>
+          </div>
+
+          <div class="doc-card">
+            <h3>Verified Entertainment Domains</h3>
+            <p>Live search is validated across premier cinema, television, and web series archives:</p>
+            <div class="chips-flex">
+              <span class="source-pill">imdb.com</span>
+              <span class="source-pill">wikipedia.org</span>
+              <span class="source-pill">rottentomatoes.com</span>
+              <span class="source-pill">themoviedb.org</span>
+              <span class="source-pill">tvmaze.com</span>
+              <span class="source-pill">variety.com</span>
+              <span class="source-pill">hollywoodreporter.com</span>
+              <span class="source-pill">deadline.com</span>
+              <span class="source-pill">indiewire.com</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Section: API Reference -->
+        <article id="doc-section-api" class="doc-article">
+          <div class="doc-header">
+            <span class="doc-kicker">Developer Endpoints</span>
+            <h1 class="doc-title">API &amp; WebSocket Reference</h1>
+            <p class="doc-description">
+              FastAPI backend provides RESTful endpoints for telemetry, movie discovery, and real-time WebSocket communication.
+            </p>
+          </div>
+
+          <div class="doc-card">
+            <h3>Real-Time WebSocket: <code>/ws/chat</code></h3>
+            <p>Connect over WebSocket to receive multi-stage progress events followed by the final curated payload:</p>
+            <pre class="code-block"><code>// Connect to WebSocket
+const ws = new WebSocket("ws://localhost:8000/ws/chat");
+ws.send(JSON.stringify({ query: "Films similar to Inception" }));
+
+// Incoming Status Events:
+// { type: "phase", phase: 1, text: "Searching the movie archive..." }
+// { type: "phase", phase: 2, text: "Connecting stories and relationships..." }
+// ...
+// { type: "complete", answer: "...", movies: [...], sources: [...] }</code></pre>
+          </div>
+
+          <div class="doc-card">
+            <h3>REST Endpoints</h3>
+            <div class="endpoint-row">
+              <span class="http-badge get">GET</span>
+              <code>/api/stats</code>
+              <span class="endpoint-desc">Returns Neo4j count, Pinecone vector count, and database health</span>
+            </div>
+            <div class="endpoint-row">
+              <span class="http-badge get">GET</span>
+              <code>/api/movies?limit=18</code>
+              <span class="endpoint-desc">Retrieves catalog of featured movies for discovery mode</span>
+            </div>
+            <div class="endpoint-row">
+              <span class="http-badge get">GET</span>
+              <code>/api/movies/{title}</code>
+              <span class="endpoint-desc">Fetches deep movie metadata, cast, director, and plot synopsis</span>
+            </div>
+            <div class="endpoint-row">
+              <span class="http-badge get">GET</span>
+              <code>/api/graph?limit=150</code>
+              <span class="endpoint-desc">Returns node-link graph data for D3 force simulation</span>
+            </div>
+            <div class="endpoint-row">
+              <span class="http-badge post">POST</span>
+              <code>/api/chat</code>
+              <span class="endpoint-desc">HTTP fallback endpoint returning synchronous research answers</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Section: Curated Prompt Guide -->
+        <article id="doc-section-prompts" class="doc-article">
+          <div class="doc-header">
+            <span class="doc-kicker">Research Inspiration</span>
+            <h1 class="doc-title">Curated Prompt Templates</h1>
+            <p class="doc-description">
+              Explore example prompt patterns designed to extract deep insights from the hybrid graph and vector knowledge base.
+            </p>
+          </div>
+
+          <div class="doc-card">
+            <h3>1. Thematic &amp; Stylistic Recommendations</h3>
+            <pre class="code-block"><code>"Recommend films similar to Inception that explore dream layers, simulated reality, and intricate heist narratives."</code></pre>
+            
+            <h3>2. Directorial Cross-References</h3>
+            <pre class="code-block"><code>"Compare the recurring motifs in Christopher Nolan's sci-fi movies vs. Denis Villeneuve's filmography."</code></pre>
+
+            <h3>3. Historical &amp; Silent Era Discovery</h3>
+            <pre class="code-block"><code>"What are the most notable silent films from the 1920s in the dataset and who directed them?"</code></pre>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       MOVIE DETAIL MODAL
+       ========================================================= -->
+  <div class="modal-overlay" id="movie-detail-modal" onclick="closeMovieDetail(event)">
+    <div class="modal-window" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeMovieDetailDirect()">✕</button>
+      <div class="modal-backdrop-header" id="modal-backdrop"></div>
+      <div class="modal-content-body">
+        <h2 class="modal-movie-title" id="modal-title">Movie Title</h2>
+        <div class="modal-meta-line" id="modal-meta">Year · Director · Genre</div>
+        
+        <p class="assistant-document" id="modal-plot" style="margin-bottom: 24px;">Plot synopsis...</p>
+        
+        <div class="inline-graph-box">
+          <div class="inline-graph-title">Graph Relationships</div>
+          <svg id="modal-graph-svg" class="inline-graph-svg"></svg>
+        </div>
+
+        <div style="margin-top: 16px;">
+          <a id="modal-wiki-link" href="#" target="_blank" class="citation-link">
+            <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> View Official Wikipedia Archive
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       PROJECT FOOTER
+       ========================================================= -->
+  <footer class="app-global-footer">
+    <div class="footer-container">
+      <div class="footer-top-grid">
+        <div class="footer-brand-col">
+          <div class="footer-brand-lockup">
+            <div class="footer-brand-icon">
+              <svg class="brand-svg-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="36" height="36" rx="9" fill="#18171C" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                <polygon points="18,7 28,13 28,23 18,29 8,23 8,13" fill="none" stroke="#FF6B35" stroke-width="1.8" stroke-linejoin="round"/>
+                <circle cx="18" cy="18" r="3.4" fill="#FF6B35"/>
+              </svg>
+            </div>
+            <span class="footer-brand-title">MovieGraph<span class="brand-ai">AI</span></span>
+          </div>
+          <p class="footer-tagline">
+            Intelligent cinematic discovery and research platform powered by Neo4j graph traversal, Pinecone semantic vectors, Mistral AI reasoning, and verified live web intelligence.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Platform</h4>
+          <ul class="footer-links">
+            <li><a href="#/research"><i data-lucide="sparkles"></i> Research Composer</a></li>
+            <li><a href="#/chat"><i data-lucide="message-square"></i> Intelligence Chat</a></li>
+            <li><a href="#/catalog"><i data-lucide="film"></i> Cinema Catalog</a></li>
+            <li><a href="#/graph"><i data-lucide="network"></i> Knowledge Graph</a></li>
+            <li><a href="#/docs"><i data-lucide="book-open"></i> Documentation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Architecture</h4>
+          <ul class="footer-links">
+            <li><span class="footer-spec-item"><i data-lucide="git-fork"></i> Neo4j Knowledge Graph</span></li>
+            <li><span class="footer-spec-item"><i data-lucide="layers"></i> Pinecone Serverless</span></li>
+            <li><span class="footer-spec-item"><i data-lucide="cpu"></i> Ministral 8B LLM</span></li>
+            <li><span class="footer-spec-item"><i data-lucide="globe"></i> Tavily Web Search</span></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Engine Specifications</h4>
+          <div class="footer-specs-box">
+            <div class="spec-row">
+              <span class="spec-label">Version:</span>
+              <span class="footer-graphrag-badge">GraphRAG v1.0</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Vectors:</span>
+              <span class="spec-val">1024-d Dense Embeddings</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Model:</span>
+              <span class="spec-val">Ministral-8B Reasoning</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div class="footer-copyright">
+          © 2026 MovieGraph AI. All rights reserved.
+        </div>
+        <div class="footer-badges-cluster">
+          <span class="footer-version-tag">GraphRAG v1.0</span>
+          <span class="footer-status-tag"><span class="status-pulse-dot"></span> System Live</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
