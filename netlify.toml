@@ -3,6 +3,10 @@
 [build]
   publish = "static"
 
+# Backend API URL injected as environment variable (used by app.js via window.MOVIEGRAPH_API_URL)
+[build.environment]
+  MOVIEGRAPH_API_URL = "https://moviegraph-ai.onrender.com"
+
 # Single Page App (SPA) Hash Routing rewrite
 [[redirects]]
   from = "/*"
@@ -17,6 +21,7 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://d3js.org https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://moviegraph-ai.onrender.com wss://moviegraph-ai.onrender.com; img-src 'self' data: https:;"
 
 # Cache control for static assets
 [[headers]]
