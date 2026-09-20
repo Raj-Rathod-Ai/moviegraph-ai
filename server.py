@@ -29,8 +29,34 @@ from pydantic import BaseModel
 import main
 from neo4j import GraphDatabase
 from pinecone import Pinecone
+from contextlib import asynccontextmanager
 
-app = FastAPI(title="MovieGraph AI API", version="1.0.0")
+# ---------------------------------------------------------
+# Startup / Shutdown Lifespan (keep-alive ping task)
+# ---------------------------------------------------------
+RENDER_BACKEND_URL = os.getenv("RENDER_BACKEND_URL", "https://moviegraph-ai.onrender.com")
+
+async def _keep_alive_ping():
+    """Pings /health every 14 minutes so Render free-tier never sleeps."""
+    import httpx
+    await asyncio.sleep(30)  # wait for server to fully start first
+    while True:
+        try:
+            async with httpx.AsyncClient(timeout=10) as client:
+                r = await client.get(f"{RENDER_BACKEND_URL}/health")
+                print(f"[KEEP-ALIVE] ping → {r.status_code}")
+        except Exception as e:
+            print(f"[KEEP-ALIVE] ping failed: {e}")
+        await asyncio.sleep(14 * 60)   # 14 minutes
+
+@asynccontextmanager
+async def lifespan(application: FastAPI):
+    task = asyncio.create_task(_keep_alive_ping())
+    print("[KEEP-ALIVE] Background ping task started (every 14 min → /health)")
+    yield
+    task.cancel()
+
+app = FastAPI(title="MovieGraph AI API", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -334,6 +360,31 @@ def process_chat_result(query: str, answer_markdown: str) -> dict:
         "sources": sources[:5],        # Best 4-5 sources max
         "retrieval": retrieval_status
     }
+
+# ---------------------------------------------------------
+# Health Check — keeps Render backend alive 24/7
+# ---------------------------------------------------------
+_SERVER_START_TIME = time.time()
+
+@app.get("/health")
+def health_check():
+    """
+    Lightweight health probe.
+    - Used by Render's health check system
+    - Pinged every 14 min by the built-in keep-alive task
+    - Can be monitored externally (UptimeRobot, BetterStack, etc.)
+    """
+    uptime_seconds = int(time.time() - _SERVER_START_TIME)
+    hours, remainder = divmod(uptime_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return JSONResponse(content={
+        "status": "healthy",
+        "service": "MovieGraph AI",
+        "version": "1.0.0",
+        "uptime": f"{hours}h {minutes}m {seconds}s",
+        "uptime_seconds": uptime_seconds,
+        "timestamp": int(time.time()),
+    })
 
 # ---------------------------------------------------------
 # API Endpoints
